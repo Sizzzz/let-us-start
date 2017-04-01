@@ -7,9 +7,11 @@ import java.util.Arrays;
  */
 public class CalcApp {
     public double calc(String[] token) {
+    	final Calculator calculator = new Calculator();
         final double result;
         
-        result = 0;
+        
+        result = calculator.Calculate();
         
         //final Operator operator = Operator.findOperator(tokens[1]);
         //return operator.evaluate(firstOperand, secondOperand);
