@@ -1,21 +1,15 @@
 package com.riotgames.sample;
 
-import java.util.Arrays;
-
 /**
  * Calculator application
  */
 public class CalcApp {
-    public double calc(String[] token) {
+    public String calc(String token) {
     	final Calculator calculator = new Calculator();
-        final double result;
-        
-        
-        result = calculator.Calculate();
-        
-        //final Operator operator = Operator.findOperator(tokens[1]);
-        //return operator.evaluate(firstOperand, secondOperand);
-        
+
+    	String formula = calculator.formulaConvert(token);
+        String result = calculator.calculate(formula);
+
         return result;
     }
 
@@ -23,8 +17,8 @@ public class CalcApp {
         final CalcApp app = new CalcApp();
         final StringBuilder outputs = new StringBuilder();
         outputs.append(args[0]);
-        
+
         System.out.print( "Addition of values: " + outputs + " = ");
-        System.out.println(app.calc(args));
+        System.out.println(app.calc(args[0]));
     }
 }
