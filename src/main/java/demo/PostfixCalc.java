@@ -11,6 +11,58 @@ import java.util.ArrayList;
  */
 public class PostfixCalc {
 
+    private static boolean isNumeric(char ch) {
+        return (ch >= '0' && ch <= '9');
+    }
+
+    private static int operatorPriority(char operator) {
+        if(operator == '(') return 0;
+        if(operator == '+' || operator == '-') return 1;
+        if(operator == '*' || operator == '/') return 2;
+        return 3;
+    }
+
+    private static boolean isOperator(char ch) {
+        return (ch == '+' || ch == '-' || ch == '*' || ch == '/');
+    }
+
+    public String formulaConvert(String input) {
+
+        Stack stack = new Stack();
+        char[] exp;
+        char ch;
+        StringBuffer sb = new StringBuffer();
+        exp = input.toCharArray();
+
+        for(int i=0; i< exp.length; i++) {
+            if(exp[i] == '(') {
+                stack.push(exp[i]);
+            } else if(exp[i] == ')') {
+                while((ch = (Character)stack.pop()) != '(') {
+                    sb.append(ch);
+                    sb.append(' ');
+                }
+            } else if(isOperator(exp[i])) {
+                while(!stack.isEmpty() && operatorPriority((Character)stack.peek()) >= operatorPriority(exp[i])) {
+                    sb.append(stack.pop());
+                    sb.append(' ');
+                }
+                stack.push(exp[i]);
+
+            } else if(isNumeric(exp[i])) {
+                do {
+                    sb.append(exp[i++]);
+                } while(i<exp.length && isNumeric(exp[i]));
+                sb.append(' '); i--;
+            }
+        }
+        while(!stack.isEmpty()) {
+            sb.append(stack.pop());
+            sb.append(' ');
+        }
+        return sb.toString();
+    }
+
     public String calculate(String input) {
         //Process the list into an ArrayList
         List<String> processedList = new ArrayList<String>();
@@ -72,12 +124,5 @@ public class PostfixCalc {
         }
         //Return the last element on the Stack.
         return tempList.pop();
-    }
-
-    public static void main(String [] args) {
-
-        PostfixCalc calc = new PostfixCalc();
-        String result = calc.calculate("65 3 5 * + 83 -");
-        System.out.println(result);
     }
 }
